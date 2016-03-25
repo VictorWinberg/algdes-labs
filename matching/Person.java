@@ -16,5 +16,5 @@ public abstract class Person {
   @Override
   public String toString()    { return name;   }
   public void addPref(int id) { prefs.add(id); }
-  public String getPrefs()    { return prefs;  }
+  public String getPrefs()    { return prefs.toString();  }
 }

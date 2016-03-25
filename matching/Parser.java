@@ -49,10 +49,10 @@ public class Parser {
     for(int i = 0; i < n; i++) {
       String[] menValues = botton[2 * i].split(": ")[1].split(" ");
       String[] womenValues = botton[2 * i + 1].split(": ")[1].split(" ");
-      for(int k = 0; k < n; k ++) {
+      for(int k = 0; k < menValues.length; k ++)
         men[i].addPref(Integer.parseInt(menValues[k]));
+      for(int k = 0; k < womenValues.length ; k ++)
         women[i].addPref(Integer.parseInt(womenValues[k]));
-      }
     }
   }
   public LinkedList<Man> getMen() {
