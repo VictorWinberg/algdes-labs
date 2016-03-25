@@ -12,13 +12,9 @@ public abstract class Person {
     prefs = new LinkedList<Integer>();
   }
 
-  public void addPref(int id) { prefs.add(id);  }
-
-  public int getId()          { return id;      }
-
+  public int getId()          { return id;     }
   @Override
-  public String toString() {  return name;   }
-
-  public String getPrefs() {  return prefs.toString();  }
-
+  public String toString()    { return name;   }
+  public void addPref(int id) { prefs.add(id); }
+  public String getPrefs()    { return prefs;  }
 }

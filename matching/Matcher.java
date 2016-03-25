@@ -2,17 +2,12 @@ import java.io.IOException;
 import java.util.*;
 
 public class Matcher {
-  private Parser parser;
-  public Matcher() {
-    try {
-      parser = new Parser();
-    } catch(IOException e) {
-      System.out.println("You fucked up.");
-    }
+
+  public Matcher() throws IOException {
+    Parser parser = new Parser();
     LinkedList<Man> singleMen = parser.getMen();
     LinkedList<Man> men = parser.getMen();
     Map<Integer, Woman> women = parser.getWomen();
-    System.out.println("--- Matcher -------");
     while(!singleMen.isEmpty()) {
       Man man = singleMen.pop();
       Woman woman = women.get(man.getPrefId());
@@ -23,11 +18,12 @@ public class Matcher {
         singleMen.addFirst(man);
       }
     }
+    System.out.println("--- Matcher -------");
     for(Man man : men)
       System.out.println(man + " -- " + man.getWife());
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     new Matcher();
   }
 }

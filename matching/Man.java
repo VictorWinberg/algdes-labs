@@ -1,15 +1,11 @@
 import java.util.*;
 
-public class Man extends Person implements Comparable<Man> {
+public class Man extends Person {
 
   private Woman wife;
 
   public Man(int id, String name) {
     super(id, name);
-  }
-
-  public int getPrefId() {
-    return prefs.pop();
   }
 
   public boolean propose(Woman woman) {
@@ -21,13 +17,7 @@ public class Man extends Person implements Comparable<Man> {
       return false;
     }
   }
-
-  public Woman getWife() {
-    return wife;
-  }
-
-  @Override
-  public int compareTo(Man other) {
-    return this.id - other.id;
-  }
+  
+  public int getPrefId() {  return prefs.pop(); }
+  public Woman getWife() {  return wife;        }
 }

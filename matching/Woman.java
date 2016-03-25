@@ -11,14 +11,6 @@ public class Woman extends Person {
     this.husband = husband;
   }
 
-  public Man getDumpedHusband() {
-    return ex;
-  }
-
-  public boolean isEngaged() {
-    return husband != null;
-  }
-
   public boolean prefer(Man proposer) {
     int hid = husband.getId();
     int pid = proposer.getId();
@@ -28,4 +20,7 @@ public class Woman extends Person {
     }
     return false;
   }
+
+  public Man getDumpedHusband() { return ex;              }
+  public boolean isEngaged()    { return husband != null; }
 }
