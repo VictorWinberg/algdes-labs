@@ -2,7 +2,7 @@ import java.util.*;
 
 public abstract class Person {
 
-  private int id;
+  protected int id;
   private String name;
   protected LinkedList<Integer> prefs;
 
@@ -17,7 +17,7 @@ public abstract class Person {
   public int getId()          { return id;      }
 
   @Override
-  public String toString() {  return id + "." + name;   }
+  public String toString() {  return name;   }
 
   public String getPrefs() {  return prefs.toString();  }
 

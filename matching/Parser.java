@@ -10,10 +10,10 @@ public class Parser {
     String input = readFromInput();
     System.out.println("--- File ----------");
     System.out.println(input);
-    System.out.println("--- End of file ---");
     buildInput(input);
+    System.out.println("--- Men and women -");
     System.out.println("Men " + Arrays.toString(men) + "\nWomen: " + Arrays.toString(women));
-    System.out.println("-----------------");
+    System.out.println("--- Person prefs --");
     for(int i = 0; i < n; i++) {
       System.out.println(men[i] + ": " + men[i].getPrefs());
       System.out.println(women[i] + ": " + women[i].getPrefs());

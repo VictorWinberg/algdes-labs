@@ -10,17 +10,21 @@ public class Matcher {
       System.out.println("You fucked up.");
     }
     LinkedList<Man> singleMen = parser.getMen();
+    LinkedList<Man> men = parser.getMen();
     Map<Integer, Woman> women = parser.getWomen();
-    System.out.println("Matcher ------");
+    System.out.println("--- Matcher -------");
     while(!singleMen.isEmpty()) {
       Man man = singleMen.pop();
       Woman woman = women.get(man.getPrefId());
       if(man.propose(woman)) {
-        System.out.print(man + " --- " + woman + "\n");
+        if(woman.getDumpedHusband() != null)
+          singleMen.addFirst(woman.getDumpedHusband());
       } else {
         singleMen.addFirst(man);
       }
     }
+    for(Man man : men)
+      System.out.println(man + " -- " + man.getWife());
   }
 
   public static void main(String[] args) {

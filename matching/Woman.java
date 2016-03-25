@@ -1,17 +1,31 @@
 public class Woman extends Person {
 
-  private boolean engaged;
+  private Man husband, ex;
 
   public Woman(int id, String name) {
     super(id, name);
-    engaged = false;
   }
 
-  public void setEngaged(boolean status) {
-    engaged = status;
+  public void setHusband(Man husband) {
+    ex = this.husband;
+    this.husband = husband;
+  }
+
+  public Man getDumpedHusband() {
+    return ex;
   }
 
   public boolean isEngaged() {
-    return engaged;
+    return husband != null;
+  }
+
+  public boolean prefer(Man proposer) {
+    int hid = husband.getId();
+    int pid = proposer.getId();
+    for(int id : prefs) {
+      if(id == hid || id == pid)
+        return pid == id;
+    }
+    return false;
   }
 }

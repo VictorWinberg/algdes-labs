@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Man extends Person {
+public class Man extends Person implements Comparable<Man> {
 
   private Woman wife;
 
@@ -13,12 +13,21 @@ public class Man extends Person {
   }
 
   public boolean propose(Woman woman) {
-    if(!woman.isEngaged()) {
+    if(!woman.isEngaged() || woman.prefer(this)) {
       wife = woman;
-      woman.setEngaged(true);
+      wife.setHusband(this);
       return true;
     } else {
       return false;
     }
+  }
+
+  public Woman getWife() {
+    return wife;
+  }
+
+  @Override
+  public int compareTo(Man other) {
+    return this.id - other.id;
   }
 }
