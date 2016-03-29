@@ -1,0 +1,90 @@
+# Killar:
+# 1 Victor Winberg
+# 3 David Norrestam
+# 5 Alexander Hansson
+# 7 Lukas Hv Brandt Brune
+# 9 Anton Göransson
+# 11 Alexander Arcombe
+# 13 Martin Johansson
+# 15 Povel Larsson
+# 17 Robin Timan
+# 19 Jesper Grahm
+# 21 Måns Ansgariusson
+# 23 Peter Skopal
+# 25 Jashar Vahid
+# 27 Nicolás Salas
+#
+# Tjejer:
+# 2 Catarina Sörensen
+# 4 Amelia Andersson
+# 6 Anna Lissborg
+# 8 Emma Asklund
+# 10 Hanna Lindwall Mikiver
+# 12 Annie Önnered
+# 14 Nora Wernerson
+# 16 Felicia Carlsson
+# 18 Lia E. Karida
+# 20 Rasha El-Manzalawy
+# 22 Kicki Lissborg
+# 24 Anna Palmqvist Sjövall
+# 26 Hanna Bayerlein
+# 28 Single
+#
+n=14
+1 Victor_Winberg
+2 Catarina_Sörensen
+3 David_Norrestam
+4 Amelia_Andersson
+5 Alexander_Hansson
+6 Anna_Lissborg
+7 Lukas_Brandt_Brune
+8 Emma_Asklund
+9 Anton_Göransson
+10 Hanna_Lindwall
+11 Alexander_Arcombe
+12 Annie_Önnered
+13 Martin_Johansson
+14 Nora_Wernerson
+15 Povel_Larsson
+16 Felicia_Carlsson
+17 Robin_Timan
+18 Lia_Karida
+19 Jesper_Grahm
+20 Rasha_El-Manzalawy
+21 Måns_Ansgariusson
+22 Kicki_Lissborg
+23 Peter_Skopal
+24 Anna_Palmqvist_Sjövall
+25 Jashar_Vahid
+26 Hanna_Bayerlein
+27 Nicolás_Salas
+28 Single
+
+1: 2 4 6 8 10 12 14 18 20 22 24 26 16
+2: 17 1 13 15 5 7 11 25 19 21 3 27 9 23
+3: 6 4 2 8 12 16 18 20 22
+4: 25 1 9 27 23
+5: 20 4 2 6 10 8 12 14 26 16 16 24 18 22
+6: 11 5 3 1 25 19 7 21 13 27 23 17
+7: 6 2 4 10 8 12 26 16 14 16 18 24 20 22
+8: 5 11 21 7 1 3 9 15 13 23 27 17 19 25
+9: 10 8 4 14 12 2 26 24 18
+10: 11 5 9 21 7 1 15 13 23 17 19 27
+11: 2 6 8 4 12 10 14 16 18 20 24 22
+12: 5 1 7 9 3 11 21 15 23 13 27 17 19 25
+13: 2 4 6 8 12 26 10 14 16 24 22 18
+14: 9 21 5 7 11 13 15 1 23 17 27 19 25
+15: 2 10 4 14 8 12 26 24 18 20
+16: 5 7 21 13 27 23 1 17
+17: 2 4 14 8 6 12 26 10 16 18 24 22
+18: 11 5 9 3 25 19 7 21 1 13 27 23 15 17
+19: 4 2 6 8 12 10 22 20 14 24 18
+20: 11 5 3 25 19 7 21 13 1 27 15
+21: 4 2 10 8 6 12 26 14 16 18 20 16 24 22
+22: 5 11 3 21 25 7 13 23 27 1 17 19
+23: 2 4 8 12 6 26 10 16 14 18 22
+24: 11 5 7 9 15 21 17 19 13 27 1 25
+25: 6 4 2 8 12 10 26 22 14 18 20 24
+26: 17 13 7 21 5 9 23 15 27 25 1
+27: 2 4 6 8 12 16 10 26 18 16 14 24 22 28
+28: 1

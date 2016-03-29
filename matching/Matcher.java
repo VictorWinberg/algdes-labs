@@ -18,7 +18,6 @@ public class Matcher {
         singleMen.addFirst(man);
       }
     }
-    System.out.println("--- Matcher -------");
     for(Man man : men)
       System.out.println(man + " -- " + man.getWife());
   }

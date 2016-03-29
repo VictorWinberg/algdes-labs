@@ -8,16 +8,7 @@ public class Parser {
 
   public Parser() throws IOException {
     String input = readFromInput();
-    System.out.println("--- File ----------");
-    System.out.println(input);
     buildInput(input);
-    System.out.println("--- Men and women -");
-    System.out.println("Men " + Arrays.toString(men) + "\nWomen: " + Arrays.toString(women));
-    System.out.println("--- Person prefs --");
-    for(int i = 0; i < n; i++) {
-      System.out.println(men[i] + ": " + men[i].getPrefs());
-      System.out.println(women[i] + ": " + women[i].getPrefs());
-    }
   }
 
   public String readFromInput() throws IOException {

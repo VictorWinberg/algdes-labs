@@ -17,7 +17,7 @@ public class Man extends Person {
       return false;
     }
   }
-  
+
   public int getPrefId() {  return prefs.pop(); }
   public Woman getWife() {  return wife;        }
 }
