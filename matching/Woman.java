@@ -19,8 +19,8 @@ public class Woman extends Person {
   public boolean prefer(Man proposer) {
     int hid = husband.getId();
     int pid = proposer.getId();
-    int hRank = prefs.get(hid);
-    int pRank = prefs.get(pid);
+    int hRank = prefs.getOrDefault(hid, 1);
+    int pRank = prefs.getOrDefault(pid, 0);
     return pRank < hRank;
   }
 

@@ -3,15 +3,16 @@ import java.util.*;
 
 public class Tester {
 
+  private boolean same;
   public Tester(String path) throws Exception {
-    boolean same = true;
+    same = true;
     File file = new File(path);
     Scanner scan = new Scanner(file);
+    String buffered = null;
+    String scanner = null;
     try (BufferedReader reader = new BufferedReader(
         new InputStreamReader(System.in, java.nio.charset.Charset.defaultCharset()))) {
         StringBuilder sb = new StringBuilder();
-        String buffered;
-        String scanner;
         while (scan.hasNextLine() && (buffered = reader.readLine()) != null) {
           scanner = scan.nextLine();
           if(!scanner.equals(buffered)) {
@@ -20,7 +21,11 @@ public class Tester {
           }
         }
     }
-    System.out.println("Filerna är " + (same ? "identiska" : "ej identiska"));
+    System.out.println("Filerna är " + (same ? "identiska" : "ej identiska\nBuffer:\n" + buffered + "\nInput:\n" + scanner));
+  }
+
+  public boolean isEqual() {
+    return same;
   }
 
   public static void main(String[] args) throws Exception {
