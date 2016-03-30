@@ -3,9 +3,11 @@ import java.util.*;
 public class Man extends Person {
 
   private Woman wife;
+  private LinkedList<Integer> prefs;
 
   public Man(int id, String name) {
     super(id, name);
+    prefs = new LinkedList<Integer>();
   }
 
   public boolean propose(Woman woman) {
@@ -18,6 +20,8 @@ public class Man extends Person {
     }
   }
 
+  public void addPref(int id) { prefs.add(id); }
   public int getPrefId() {  return prefs.pop(); }
+  public String getPrefs()    { return prefs.toString();  }
   public Woman getWife() {  return wife;        }
 }

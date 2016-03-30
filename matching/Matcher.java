@@ -4,6 +4,7 @@ import java.util.*;
 public class Matcher {
 
   public Matcher() throws IOException {
+    long startTime = System.currentTimeMillis();
     Parser parser = new Parser();
     LinkedList<Man> singleMen = parser.getMen();
     LinkedList<Man> men = parser.getMen();
@@ -18,8 +19,10 @@ public class Matcher {
         singleMen.addFirst(man);
       }
     }
+    long totalTime = System.currentTimeMillis() - startTime;
     for(Man man : men)
       System.out.println(man + " -- " + man.getWife());
+    System.out.println("Time: " + totalTime);
   }
 
   public static void main(String[] args) throws IOException {
