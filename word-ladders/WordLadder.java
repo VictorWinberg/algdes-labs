@@ -1,100 +1,93 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class WordLadder {
 
-	private LinkedList<String>[] inputList;
-
-	public WordLadder() throws IOException {
-		String[] input = readFromInput().split("\n");
-		inputList = new LinkedList[input.length];
-		buildStructure(input, inputList);
-	}
+	private SortedMap<String, SortedSet<String>> endingsMap;
+	private SortedMap<String, SortedSet<String>> neighborsMap;
 
 	public WordLadder(String path) throws IOException {
 		String[] input = readFromFile(path).split("\n");
-		inputList = new LinkedList[input.length];
-		buildStructure(input, inputList);
+		endingsMap = new TreeMap<String, SortedSet<String>>();
+		neighborsMap = new TreeMap<String, SortedSet<String>>();
+		buildStructure(input);
 	}
 
-	private void buildStructure(String[] inputs, LinkedList<String>[] inputList) {
-		for (int i = 0; i < inputList.length; i++) {
-			inputList[i] = new LinkedList<String>();
-			inputList[i].add(inputs[i]);
-			for (int j = 0; j < inputs.length; j++) {
-				if (!inputs[j].equals(inputs[i]) && containsWithoutOrder(inputs[i], inputs[j])) {
-					inputList[i].add(inputs[j]);
-				}
-			}
+	private void buildStructure(String[] inputs) {
+		for (int i = 0; i < inputs.length; i++) {
+			makeEndingsToMap(inputs[i]);
+		}
+		for(int i = 0; i < inputs.length; i++) {
+			SortedSet<String> neighbors = findNeighbors(inputs[i]);
+			neighborsMap.put(inputs[i], neighbors);
+		}
+		for(Map.Entry<String, SortedSet<String>> entry : endingsMap.entrySet()) {
+			System.out.println("Key: " + entry.getKey() + ", Value: " + Arrays.toString(entry.getValue().toArray()));
+		}
+		for(Map.Entry<String, SortedSet<String>> entry : neighborsMap.entrySet()) {
+			System.out.println("Key: " + entry.getKey() + ", Value: " + Arrays.toString(entry.getValue().toArray()));
 		}
 	}
 
-	public static boolean containsWithoutOrder(String current, String other) {
-		current = current.substring(1);
-		String[] currentValues = current.split("");
-		String[] otherValues = other.split("");
-		int n = 0;
-		for (int i = 0; i < currentValues.length; i++) {
-			for (int j = 0; j < otherValues.length; j++) {
-				if (currentValues[i].equals(otherValues[j])) {
-					otherValues[j] = "";
-					n++;
-					break;
-				}
+	private void makeEndingsToMap(String word) {
+		SortedSet<String> endings = getEndings(word);
+		for(String ending : endings) {
+			SortedSet<String> set = endingsMap.get(ending);
+			if(set == null) {
+				set = new TreeSet<String>();
+				set.add(word);
+				endingsMap.put(ending, set);				
+			} else {
+				set.add(word);
 			}
 		}
-		return n == 4;
+	}
+	
+	private SortedSet<String> getEndings(String word) {
+		SortedSet<String> set = new TreeSet<String>();
+		String c = word;
+		for(int j = 0; j < 5; j++) {
+			char[] chars = (c.substring(0, j) + c.substring(j + 1, 5)).toCharArray();
+			Arrays.sort(chars);
+			set.add(new String(chars));
+		}
+		return set;
 	}
 
-	public boolean path(String from, String to) {
-		HashSet<String> used = new HashSet<String>();
-		used.add(from);
+	private SortedSet<String> findNeighbors(String word) {
+		SortedSet<String> set = new TreeSet<String>();
+		char[] endings = word.substring(1).toCharArray();
+		Arrays.sort(endings);
+		String ending = new String(endings);
+		for(String neighbor : endingsMap.get(ending)) {
+			if(!neighbor.equals(word))
+				set.add(neighbor);
+		}
+		return set;
+	}
+
+	public int path(String from, String to) {
+		HashMap<String, Integer> used = new HashMap<String, Integer>();
+		used.put(from, 0);
 		Queue<String> queue = new LinkedList<String>();
 		queue.add(from);
-		int n = 0;
 		while (!queue.isEmpty()) {
 			String current = queue.poll();
-			if (current.equals(to))
-				return true;
-			for (String neighbor : getNeighbors(current)) {
-				if (!used.contains(neighbor)) {
+			if (current.equals(to)) {
+				return used.get(current);				
+			}
+			for (String neighbor : findNeighbors(current)) {
+				if (!used.containsKey(neighbor)) {
+					used.put(neighbor, used.get(current)+1);
 					queue.add(neighbor);
-					used.add(neighbor);
 				}
 			}
 		}
-		return false;
+		return -1;
 	}
-
-	private LinkedList<String> getNeighbors(String string) {
-		for (int i = 0; i < inputList.length; i++) {
-			if (inputList[i].peek().equals(string))
-				return inputList[i];
-		}
-		return null;
-	}
-
-	public String readFromInput() throws IOException {
-		try (BufferedReader reader = new BufferedReader(
-				new InputStreamReader(System.in, java.nio.charset.Charset.defaultCharset()))) {
-			StringBuilder sb = new StringBuilder();
-			String line;
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			return sb.toString();
-		}
-	}
-
+	
 	public String readFromFile(String path) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded, java.nio.charset.Charset.defaultCharset());
@@ -103,11 +96,11 @@ public class WordLadder {
 	public static void main(String[] args) throws IOException {
 		WordLadder wl = null;
 		if(args.length == 0)
-			wl = new WordLadder("word-ladders/data/words-250.txt");
+			wl = new WordLadder("word-ladders/data/words-5757.txt");
 		else
 			wl = new WordLadder(args[0]);
 		while (true) {
-			System.out.print("Word1 Word2: ");
+			System.out.print("word1 word2: ");
 			String[] words = new Scanner(System.in).nextLine().split(" ");
 			System.out.println(wl.path(words[0], words[1]));
 		}
