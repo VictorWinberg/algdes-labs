@@ -15,6 +15,14 @@ public class WordLadder {
 		buildStructure(input);
 	}
 
+	public WordLadder(String path, String testpath) throws IOException {
+		this(path);
+		String[] lines = readFromFile(testpath).split("\n");
+		for(String line : lines) {
+			System.out.println(this.path(line.split(" ")[0], line.split(" ")[1]));
+		}
+	}
+
 	private void buildStructure(String[] inputs) {
 		for (int i = 0; i < inputs.length; i++) {
 			makeEndingsToMap(inputs[i]);
@@ -22,12 +30,6 @@ public class WordLadder {
 		for(int i = 0; i < inputs.length; i++) {
 			SortedSet<String> neighbors = findNeighbors(inputs[i]);
 			neighborsMap.put(inputs[i], neighbors);
-		}
-		for(Map.Entry<String, SortedSet<String>> entry : endingsMap.entrySet()) {
-			System.out.println("Key: " + entry.getKey() + ", Value: " + Arrays.toString(entry.getValue().toArray()));
-		}
-		for(Map.Entry<String, SortedSet<String>> entry : neighborsMap.entrySet()) {
-			System.out.println("Key: " + entry.getKey() + ", Value: " + Arrays.toString(entry.getValue().toArray()));
 		}
 	}
 
@@ -61,6 +63,8 @@ public class WordLadder {
 		char[] endings = word.substring(1).toCharArray();
 		Arrays.sort(endings);
 		String ending = new String(endings);
+		if(endingsMap.get(ending) == null)
+			return set;
 		for(String neighbor : endingsMap.get(ending)) {
 			if(!neighbor.equals(word))
 				set.add(neighbor);
@@ -95,14 +99,24 @@ public class WordLadder {
 
 	public static void main(String[] args) throws IOException {
 		WordLadder wl = null;
-		if(args.length == 0)
-			wl = new WordLadder("word-ladders/data/words-5757.txt");
-		else
+		if(args.length == 0) {
+			String[] filepath = new String[2];
+			filepath[0] = "word-ladders/data/words-5757.txt";
+			filepath[1] = "word-ladders/data/words-5757-in.txt";
+			main(filepath);
+		}
+		else if(args.length == 1) {
 			wl = new WordLadder(args[0]);
-		while (true) {
-			System.out.print("word1 word2: ");
-			String[] words = new Scanner(System.in).nextLine().split(" ");
-			System.out.println(wl.path(words[0], words[1]));
+			while (true) {
+				System.out.print("word1 word2: ");
+				String[] words = new Scanner(System.in).nextLine().split(" ");
+				if(words.length == 2)
+					System.out.println(wl.path(words[0], words[1]));
+				else
+					System.out.println("Please input 2 words seperated by space.");
+			}
+		} else if(args.length == 2) {
+			wl = new WordLadder(args[0], args[1]);
 		}
 	}
 
