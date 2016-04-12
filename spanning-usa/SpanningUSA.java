@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
@@ -47,10 +48,10 @@ public class SpanningUSA {
 				String from = getCity(input[i].split("--")[0]);
 				String to = getCity(input[i].split("--")[1].split("\\[")[0]);
 				int weight = Integer.parseInt(input[i].split("\\[")[1].split("\\]")[0]);
-				Node edge1 = new Node(to, weight);
-				map.get(from).add(edge1);
-				Node edge2 = new Node(from, weight);
-				map.get(to).add(edge2);
+				Node node1 = new Node(to, weight);
+				map.get(from).add(node1);
+				Node node2 = new Node(from, weight);
+				map.get(to).add(node2);
 			}
 		}
 	}
