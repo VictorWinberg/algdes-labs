@@ -109,7 +109,9 @@ public class WordLadder {
 			wl = new WordLadder(args[0]);
 			while (true) {
 				System.out.print("word1 word2: ");
-				String[] words = new Scanner(System.in).nextLine().split(" ");
+				Scanner scan = new Scanner(System.in);
+				String[] words = scan.nextLine().split(" ");
+				scan.close();
 				if(words.length == 2)
 					System.out.println(wl.path(words[0], words[1]));
 				else

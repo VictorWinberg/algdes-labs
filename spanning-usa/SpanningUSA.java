@@ -3,7 +3,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
@@ -69,11 +68,10 @@ public class SpanningUSA {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		SpanningUSA spanning = null;
 		if(args.length == 0)
-			spanning = new SpanningUSA("spanning-usa/data/USA-highway-miles.txt");
+			new SpanningUSA("spanning-usa/data/USA-highway-miles.txt");
 		else
-			spanning = new SpanningUSA(args[0]);
+			new SpanningUSA(args[0]);
 			
 	}
 }
