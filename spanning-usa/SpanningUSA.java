@@ -1,44 +1,58 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class SpanningUSA {
 	
-	private TreeMap<String, TreeSet<Node>> map;
-	private TreeSet<Node> cities;
-	
-	private MinimalSpanningTree mst;
+	private TreeMap<String, LinkedList<Node>> map;
 
 	public SpanningUSA(String path) throws IOException {
 		String[] lines = readFromFile(path).split("\n");
-		map = new TreeMap<String, TreeSet<Node>>();
-		cities = new TreeSet<Node>();
+		map = new TreeMap<String, LinkedList<Node>>();
 		buildAmerica(lines);
-		connectAmerica(lines);
-		for(Map.Entry<String, TreeSet<Node>> entry : map.entrySet()) {
+		/*for(Map.Entry<String, LinkedList<Node>> entry : map.entrySet()) {
 			System.out.println(entry.getKey() + ":" + entry.getValue());
+		}*/
+		System.out.println(prims());
+	}
+	
+	private int prims() {
+		int weight = 0;
+		HashSet<String> visited = new HashSet<String>();
+		String firstCity = map.firstKey();
+		visited.add(firstCity);
+		PriorityQueue<Node> queue = new PriorityQueue<Node>();
+		queue.addAll(map.get(firstCity));
+		while (!queue.isEmpty()) {
+			Node node = queue.poll();
+			if (!visited.contains(node.city())) {
+				weight += node.weight();
+				visited.add(node.city());
+				queue.addAll(map.get(node.city()));
+			}
 		}
-		mst = new MinimalSpanningTree(map, cities, "San Diego");
+		return weight;
 	}
 	
 	public void buildAmerica(String[] input) {
-		for(int i = 0; i < 128; i++) {
-			String city = getCity(input[i]);
-			map.put(city, new TreeSet<Node>());
-			cities.add(new Node(city, Integer.MAX_VALUE));
-		}
-	}
-	
-	public void connectAmerica(String[] input) {
-		for(int i = 128; i < input.length; i++) {
-			String city = getCity(input[i].split("--")[0]);
-			String neighbor = getCity(input[i].split("--")[1].split("\\[")[0]);
-			int distance = Integer.parseInt(input[i].split("\\[")[1].split("\\]")[0]);
-			map.get(city).add(new Node(neighbor, distance));
-			map.get(neighbor).add(new Node(city, distance));
+		for(int i = 0; i < input.length; i++) {
+			if(!input[i].contains("--")) {
+				String city = getCity(input[i]);
+				map.put(city, new LinkedList<Node>());				
+			} else {
+				String from = getCity(input[i].split("--")[0]);
+				String to = getCity(input[i].split("--")[1].split("\\[")[0]);
+				int weight = Integer.parseInt(input[i].split("\\[")[1].split("\\]")[0]);
+				Node edge1 = new Node(to, weight);
+				map.get(from).add(edge1);
+				Node edge2 = new Node(from, weight);
+				map.get(to).add(edge2);
+			}
 		}
 	}
 	
