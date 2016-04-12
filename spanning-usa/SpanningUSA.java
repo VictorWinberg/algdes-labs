@@ -1,22 +1,21 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class SpanningUSA {
 	
-	private TreeMap<String, TreeMap<Integer, List<String>>> map;
+	private TreeMap<String, TreeMap<String, Integer>> map;
+	MinimalSpanningTree mst;
 
 	public SpanningUSA(String path) throws IOException {
 		String[] lines = readFromFile(path).split("\n");
-		map = new TreeMap<String, TreeMap<Integer, List<String>>>();
-		TreeMap<String, TreeMap<Integer, List<String>>> cities = getCities(lines);
-		addNeighbors(lines);
-		for(Map.Entry<String, TreeMap<Integer, List<String>>> entry : map.entrySet()) {
-			System.out.println(entry.getKey() + " " + entry.getValue());
+		map = new TreeMap<String, TreeMap<String, Integer>>();
+		TreeMap<String, TreeMap<String, Integer>> cities = getCities(lines);
+		buildAmerica(lines);
+		for(Map.Entry<String, TreeMap<String, Integer>> entry : map.entrySet()) {
+			System.out.println(entry.getKey() + ":" + entry.getValue());
 		}
 	}
 	
@@ -27,26 +26,22 @@ public class SpanningUSA {
 			return input.trim();
 	}
 	
-	public TreeMap<String, TreeMap<Integer, List<String>>> getCities(String[] input) {
-		TreeMap<String, TreeMap<Integer, List<String>>> cities = new TreeMap<String, TreeMap<Integer, List<String>>>();
+	public TreeMap<String, TreeMap<String, Integer>> getCities(String[] input) {
+		TreeMap<String, TreeMap<String, Integer>> cities = new TreeMap<String, TreeMap<String, Integer>>();
 		for(int i = 0; i < 128; i++) {
 			String city = getCity(input[i]);
-			map.put(city, new TreeMap<Integer, List<String>>());
+			map.put(city, new TreeMap<String, Integer>());
 		}
 		return cities;
 	}
 	
-	public void addNeighbors(String[] input) {
+	public void buildAmerica(String[] input) {
 		for(int i = 128; i < input.length; i++) {
 			String city = getCity(input[i].split("--")[0]);
 			String neighbor = getCity(input[i].split("--")[1].split("\\[")[0]);
 			int distance = Integer.parseInt(input[i].split("\\[")[1].split("\\]")[0]);
-			List<String> list = new LinkedList<String>();
-			list.add(neighbor);
-			list = map.get(city).putIfAbsent(distance, list);
-			if(list != null) {
-				list.add(neighbor);
-			}
+			map.get(city).put(neighbor, distance);
+			map.get(neighbor).put(city, distance);
 		}
 	}
 	
