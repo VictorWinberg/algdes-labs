@@ -3,37 +3,51 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
 public class SpanningUSA {
 	
-	private TreeMap<String, LinkedList<Node>> map;
+	private TreeMap<String, List<Edge>> map;
+	private List<Edge> result;
 
 	public SpanningUSA(String path) throws IOException {
 		String[] lines = readFromFile(path).split("\n");
-		map = new TreeMap<String, LinkedList<Node>>();
+		map = new TreeMap<String, List<Edge>>();
+		result = new LinkedList<Edge>();
 		buildAmerica(lines);
-		/*for(Map.Entry<String, LinkedList<Node>> entry : map.entrySet()) {
-			System.out.println(entry.getKey() + ":" + entry.getValue());
-		}*/
 		System.out.println(prims());
+		switch (0) {
+		case 1:
+			for(Map.Entry<String, List<Edge>> entry : map.entrySet()) {
+				System.out.println(entry.getKey() + ":" + entry.getValue());
+			}
+			break;
+		case 2:
+			for(Edge edge : result) {
+				System.out.println(edge);
+			}
+		default:
+			break;
+		}
 	}
 	
 	private int prims() {
 		int weight = 0;
 		HashSet<String> visited = new HashSet<String>();
-		String firstCity = map.firstKey();
-		visited.add(firstCity);
-		PriorityQueue<Node> queue = new PriorityQueue<Node>();
-		queue.addAll(map.get(firstCity));
+		String firstEdge = map.firstKey();
+		visited.add(firstEdge);
+		PriorityQueue<Edge> queue = new PriorityQueue<Edge>();
+		queue.addAll(map.get(firstEdge));
 		while (!queue.isEmpty()) {
-			Node node = queue.poll();
-			if (!visited.contains(node.city())) {
-				weight += node.weight();
-				visited.add(node.city());
-				queue.addAll(map.get(node.city()));
+			Edge edge = queue.poll();
+			if (!visited.contains(edge.to())) {
+				weight += edge.weight();
+				result.add(edge);
+				visited.add(edge.to());
+				queue.addAll(map.get(edge.to()));
 			}
 		}
 		return weight;
@@ -43,15 +57,15 @@ public class SpanningUSA {
 		for(int i = 0; i < input.length; i++) {
 			if(!input[i].contains("--")) {
 				String city = getCity(input[i]);
-				map.put(city, new LinkedList<Node>());				
+				map.put(city, new LinkedList<Edge>());				
 			} else {
 				String from = getCity(input[i].split("--")[0]);
 				String to = getCity(input[i].split("--")[1].split("\\[")[0]);
 				int weight = Integer.parseInt(input[i].split("\\[")[1].split("\\]")[0]);
-				Node node1 = new Node(to, weight);
-				map.get(from).add(node1);
-				Node node2 = new Node(from, weight);
-				map.get(to).add(node2);
+				Edge edge1 = new Edge(from, to, weight);
+				map.get(from).add(edge1);
+				Edge edge2 = new Edge(to, from, weight);
+				map.get(to).add(edge2);
 			}
 		}
 	}
@@ -70,7 +84,7 @@ public class SpanningUSA {
 	
 	public static void main(String[] args) throws IOException {
 		if(args.length == 0)
-			new SpanningUSA("spanning-usa/data/USA-highway-miles.txt");
+			new SpanningUSA("spanning-usa/data/tinyEWG-alpha.txt");
 		else
 			new SpanningUSA(args[0]);
 			
