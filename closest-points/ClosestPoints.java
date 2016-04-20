@@ -24,13 +24,23 @@ public class ClosestPoints {
 		allPointsByX.sort(new Comparator<Point>() {
 			@Override
 			public int compare(Point o1, Point o2) {
-				return (int) (o1.getX() - o2.getX());
+				if(o1.getX() > o2.getX())
+					return 1;
+				else if(o1.getX() < o2.getX())
+					return -1;
+				else
+					return 0;
 			}
 		});
 		allPointsByY.sort(new Comparator<Point>() {
 			@Override
 			public int compare(Point o1, Point o2) {
-				return (int) (o1.getY() - o2.getY());
+				if(o1.getY() > o2.getY())
+					return 1;
+				else if(o1.getY() < o2.getY())
+					return -1;
+				else
+					return 0;
 			}
 		});
 		System.out.print(allPoints.size() + " ");
