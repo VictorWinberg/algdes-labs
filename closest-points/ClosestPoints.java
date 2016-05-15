@@ -75,13 +75,17 @@ public class ClosestPoints {
 		List<Point> yS = new ArrayList<Point>();
 		// The most rightmost point of the left side ≈ middle point
 		double x = xL.get(xL.size() - 1).getX();
+		int n = 0;
 		for (Point p : pointsByX) {
-			if (Math.abs(p.getX() - x) < closest.distSqrt())
+			if (Math.abs(p.getX() - x) < closest.distSqrt()) {
 				yS.add(p);
+				if(n++ > 7)
+					break;
+			}
 		}
 		int i = 0;
 		for(Point p : yS) {
-			for (int k = 1; k < 16; k++) {
+			for (int k = 1; k < 8; k++) {
 				if ((k+i) >= yS.size()) 
 					break;
 				Pair pairIK = new Pair(p, yS.get(k+i));
