@@ -8,14 +8,18 @@ public class SequenceAlignment {
 	
 	private Map<Character, Integer> map;
 	
-	public SequenceAlignment(String a, String b) throws IOException {
+	public SequenceAlignment(String a, String b, String path) throws IOException {
 		map = new TreeMap<Character, Integer>();
-		int[][] A = blosum62("gorilla/data/BLOSUM62.txt");
+		int[][] A = blosum62(path);
 		
 		char[] x = a.toCharArray();
 		char[] y = b.toCharArray();
 		
-		System.out.println(sequenceAlignment(x.length, y.length, x, y, -4, A));
+		int[][] M = sequenceMatrix(x.length, y.length, x, y, -4, A);
+		
+		System.out.println(a + "--" + b + ": " + M[x.length][y.length]);
+		
+		tracebackAlignment(x.length, y.length, a, b, -4, M);
 	}
 	
 	private int[][] blosum62(String path) throws IOException {
@@ -39,7 +43,7 @@ public class SequenceAlignment {
 		return A;
 	}
 
-	private int sequenceAlignment(int m, int n, char[] x, char[] y, int d, int[][] A) {
+	private int[][] sequenceMatrix(int m, int n, char[] x, char[] y, int d, int[][] A) {
 		int M[][] = new int[m + 1][n + 1];
 		for(int i = 0; i <= m; i ++)
 			M[i][0] = i * d;
@@ -48,12 +52,34 @@ public class SequenceAlignment {
 		
 		for(int i = 1; i <= m; i++) {
 			for(int j = 1; j <= n; j++) {
-				M[i][j] = Math.max(A[map.get(x[i-1])][map.get(y[j-1])] + M[i-1][j-1], 
+				int a = (map.get(x[i-1]) == null || map.get(y[j-1]) == null) ? d : A[map.get(x[i-1])][map.get(y[j-1])];
+				M[i][j] = Math.max(a + M[i-1][j-1], 
 						  Math.max(d + M[i-1][j], 
 								   d + M[i][j-1]));
 			}
 		}
-		return M[m][n];
+		
+		return M;
+	}
+	
+	public void tracebackAlignment(int m, int n, String x, String y, int d, int[][] M) {
+		while(m != 0 || n != 0) {
+			int up = m == 0 ? 0 : M[m-1][n];
+			int left = n == 0 ? 0 : M[m][n-1];
+			int current = M[m][n];
+			if(m != 0 && up + d == current) {
+				m--;
+				y = y.substring(0, n) + "-" + y.substring(n, y.length());
+			} else if(n != 0 && left + d == current) {
+				n--;
+				x = x.substring(0, m) + "-" + x.substring(m, x.length());
+			} else {
+				m--;
+				n--;
+			}
+		}
+		System.out.println(x);
+		System.out.println(y);
 	}
 	
 	public String readFromFile(String path) throws IOException {
@@ -62,9 +88,14 @@ public class SequenceAlignment {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		if(args.length == 0)
-			new SequenceAlignment("KQRK", "KQRIKAAKABK");
+		String[] s = {"VICTOR", "ANTON", "ANNIE", "HANNA"};
+		if(args.length == 0) {
+			for(int i = 0; i < s.length; i++) {
+				for(int j = i; j < s.length; j++)
+					if(i != j) new SequenceAlignment(s[i], s[j], "gorilla/data/BLOSUM62.txt");								
+			}
+		}
 		else
-			new SequenceAlignment(args[0], args[1]);
+			new SequenceAlignment(args[0], args[1], args[2]);
 	}
 }
